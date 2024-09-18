@@ -1,5 +1,5 @@
 <template>
-    <v-sheet class="pa-2" rounded style="margin-top: 50px;">
+    <v-sheet class="pa-2" rounded>
        <v-card class="mx-auto px-6 py-8" max-width="550px" :elevation="12" style="min-width: 300px;">
            <v-card-title>
              <span class="headline">SignUp</span>
@@ -21,7 +21,8 @@
                    />
                  </v-col>
                  <v-col cols="9">
-                   <v-text-field ref="username" label="ID*" required v-model="username"/>
+                   <v-text-field ref="username" label="ID*" required v-model="username"
+                    :rules="IDRules"/>
                    
                  </v-col>
                  
@@ -74,6 +75,13 @@
             phone: '',
             email: '',
             // validation (조건식이 true가 아니면 문구 반환)
+            IDRules: [
+                v => !!v || 'ID를 입력해주세요.', // 이메일 미입력 시 (!v => v가 false면 true를 반환함 // !!v => v가 true면 true)
+                v => v.trim().length > 0 && !/\s/.test(v) || '공백을 사용할 수 없습니다.', // 공백만 입력 혹은 포함 시
+                v => /^[a-zA-Z0-9]*$/.test(v) || '영어와 숫자만 허용됩니다.'
+            ],
+
+
             emailRules: [
                 v => !!v || '이메일을 입력해주세요.', // 이메일 미입력 시 (!v => v가 false면 true를 반환함 // !!v => v가 true면 true)
                 v => v.trim().length > 0 && !/\s/.test(v) || '공백을 사용할 수 없습니다.', // 공백만 입력 혹은 포함 시
@@ -153,7 +161,7 @@
           if (res.status === 200) {
             alert("회원가입 성공");
             console.log("회원가입 성공");
-            this.$router.push('/');
+            this.$router.push('/login');
           } else {
             throw new Error("회원가입 실패");
           }
@@ -162,8 +170,6 @@
           console.log("회원가입 실패", error);
       }
     }
-
-
   }
 }
    </script>

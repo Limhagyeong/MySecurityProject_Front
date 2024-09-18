@@ -1,5 +1,5 @@
 <template>
-    <v-sheet class="pa-2" rounded style="margin-top: 200px;">
+    <v-sheet class="pa-2" rounded style="margin-top: 100px;">
         <v-card class="mx-auto px-6 py-8" max-width="500px" :elevation="12" style="min-width: 300px;">
         <v-card-text>
           <v-container>
@@ -12,7 +12,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="PostLogin">Login</v-btn>
-          <v-btn color="blue darken-1" flat @click="ToJoin">SignUp</v-btn>
+          <v-btn color="blue darken-1" flat @click="ToSignUp">SignUp</v-btn>
         </v-card-actions>
       </v-card>
     </v-sheet>
@@ -34,8 +34,8 @@
             const router=useRouter();
             
             // 회원가입 이동
-            const ToJoin=()=>{
-                router.push('/join');
+            const ToSignUp=()=>{
+                router.push('/signup');
             };
             // 로그인 
             const PostLogin=async()=>{
@@ -69,7 +69,7 @@
             };
 
             return{
-                ToJoin,
+                ToSignUp,
                 PostLogin,
                 username,
                 password,
