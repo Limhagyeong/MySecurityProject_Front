@@ -6,7 +6,7 @@
       <!-- 검색 필드 -->
       <v-spacer></v-spacer>
       <v-text-field
-        v-show="!isLoginPage && !isSignUpPage"
+        v-show="!isLoginPage && !isSignUpPage && !isFindidPage && !isFindpwdPage"
         v-model="keyword"
         placeholder="Search Keyword"
         class="search-field"
@@ -52,6 +52,12 @@ export default{
     },
     isSignUpPage(){
       return this.$route.path === '/signup';
+    },
+    isFindidPage(){
+      return this.$route.path === '/findid';
+    },
+    isFindpwdPage(){
+      return this.$route.path === '/findpwd';
     }
     
   }

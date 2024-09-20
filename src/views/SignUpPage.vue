@@ -35,10 +35,12 @@
                    />
                  </v-col>
                  <v-col cols="12">
-                   <v-text-field ref="bday" label="Birth* (YYYY-MM-DD)" required v-model="bday"/>
+                   <v-text-field ref="bday" label="Birth* (YYYY-MM-DD)" required v-model="bday"
+                    :rules="dateRules"/>
                  </v-col>
                  <v-col cols="12">
-                   <v-text-field ref="phone" label="phone*" required v-model="phone"/>
+                   <v-text-field ref="phone" label="phone*" required v-model="phone"
+                    :rules="phoneRules"/>
                  </v-col>
                  <v-col cols="12">
                    <v-select
@@ -74,6 +76,7 @@
             bday: '',
             phone: '',
             email: '',
+            checkID: false,
             // validation (조건식이 true가 아니면 문구 반환)
             IDRules: [
                 v => !!v || 'ID를 입력해주세요.', // 이메일 미입력 시 (!v => v가 false면 true를 반환함 // !!v => v가 true면 true)
@@ -97,6 +100,15 @@
                 v => /\d/.test(v) || '비밀번호에는 하나 이상의 숫자가 포함되어야 합니다.', // 숫자 포함
                 v => /[!@#$%^&*(),.?":{}|<>]/.test(v) || '비밀번호에는 하나 이상의 특수문자가 포함되어야 합니다.', // 특수문자 포함
             ],
+
+            phoneRules: [
+                v => /^[a-zA-Z0-9]*$/.test(v) || '특수문자를 포함할 수 없습니다.',
+                v => (v && v.length == 11) || '휴대전화번호 11자리를 입력하세요.',
+            ],
+
+            dateRules: [
+               v => /^\d{4}-\d{2}-\d{2}$/.test(v) || 'YYYY-MM-DD 형식으로 입력해주세요.',
+            ]
         }
       },
 
@@ -105,11 +117,11 @@
         // 아이디 중복 검증
         async validatinonOfID(){
              try{
-               console.log(this.username)
                const res= await axios.post('/api/members/idValidate', {username : this.username})
                console.log(res)
                if(res.status===200){
                 alert("사용 가능한 아이디입니다.")
+                this.checkID=true
                }
              }catch(error){
                 alert(error.response.data.message) // 서버에서 검증 거침
@@ -144,11 +156,16 @@
             this.$refs.phone.focus();
             return
         }
-
+        // 아이디 중복 검증 미수행 시
+        if(this.checkID==false){
+          console.log(this.checkID)
+          alert("아이디 중복확인이 필요합니다.");
+          return
+        }
 
         const formData = new FormData();
         formData.append("username", this.username);
-        formData.append("pwd", this.password);
+        formData.append("password", this.password);
         formData.append("name", this.name);
         formData.append("gender", this.gender);
         formData.append("bday", this.bday);
@@ -157,17 +174,12 @@
 
         try {
           const res = await axios.post('/api/members', formData);
-          console.log(res);
           if (res.status === 200) {
             alert("회원가입 성공");
-            console.log("회원가입 성공");
             this.$router.push('/login');
-          } else {
-            throw new Error("회원가입 실패");
-          }
+          } 
         } catch (error) {
-          alert("회원가입 실패");
-          console.log("회원가입 실패", error);
+          alert(error.response.data.message) // 서버에서 검증 거침
       }
     }
   }

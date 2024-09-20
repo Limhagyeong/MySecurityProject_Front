@@ -9,8 +9,13 @@
             </form>
           </v-container>
         </v-card-text>
+        <v-card-actions class="findInfo d-flex justify-center">
+        <v-btn class="findInfoBtn" color="grey darken-1" style="font-weight: bold;" @click="ToFindId">아이디 찾기</v-btn>
+        <span >|</span>
+        <v-btn color="grey darken-1" style="font-weight: bold;" @click="$router.push('/findpwd')">비밀번호 찾기</v-btn>
+        </v-card-actions>
         <v-card-actions>
-          <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="PostLogin">Login</v-btn>
           <v-btn color="blue darken-1" flat @click="ToSignUp">SignUp</v-btn>
         </v-card-actions>
@@ -36,6 +41,10 @@
             // 회원가입 이동
             const ToSignUp=()=>{
                 router.push('/signup');
+            };
+            // 아이디 찾기 이동
+            const ToFindId=()=>{
+                router.push('/findid');
             };
             // 로그인 
             const PostLogin=async()=>{
@@ -70,6 +79,7 @@
 
             return{
                 ToSignUp,
+                ToFindId,
                 PostLogin,
                 username,
                 password,
@@ -78,3 +88,9 @@
         },
     }
   </script>
+
+<style>
+.findInfo{
+    margin: -40px 0 10px 0;
+}
+</style>

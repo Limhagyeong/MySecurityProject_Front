@@ -6,7 +6,7 @@
           <!-- 헤더 -->
             <HeaderCom />
         </v-row>
-        <v-row v-show="!isLoginPage && !isSignUpPage">
+        <v-row v-show="!isLoginPage && !isSignUpPage && !isFindidPage && !isFindpwdPage">
           <!-- 사이드바 (로그인, 회원가입 페이지에서는 숨김) -->
             <SidebarCom />
         </v-row>
@@ -36,6 +36,12 @@ export default {
     },
     isSignUpPage(){
       return this.$route.path === '/signup';
+    },
+    isFindidPage(){
+      return this.$route.path === '/findid';
+    },
+    isFindpwdPage(){
+      return this.$route.path === '/findpwd';
     }
     
   }
