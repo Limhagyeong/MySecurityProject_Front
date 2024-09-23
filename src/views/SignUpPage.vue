@@ -5,7 +5,7 @@
              <span class="headline">SignUp</span>
            </v-card-title>
            <v-card-text>
-             <v-container>
+             <v-container :class="{disabled: loading === true}"> <!-- 인증 메일 발송 대기중일 때 다른 동작을 방지함 -->
                <form>
                <v-row>
                  <v-col cols="9">
@@ -15,20 +15,55 @@
                     <v-radio ref="gender" label="Male*" value="M"/>
                     <v-radio ref="gender" label="FMale*" value="F"/>
                  </v-radio-group>
-                 <v-col cols="12">
+
+                 <v-col cols="12" :class="{disabled: mailCheck === true}"> <!-- 메일 인증 완료 후 수정 방지 -->
+                 <v-row>
+                 <v-col cols="9">
                    <v-text-field ref="email" label="E-mail*" required v-model="email"
                     :rules="emailRules"
                    />
                  </v-col>
+                 <v-col cols="3">
+                    <v-btn color="blue darken-1" size="55" style="width: 100%; font-weight: bold;" @click="sendMailAuth">메일인증</v-btn>
+                 </v-col>
+                </v-row>
+                </v-col>
+
+                 <v-col cols="12" v-if="loading">
+                  
+                  <div class="mr-2" style="margin: auto;">
+                    <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                 </div>
+
+                 </v-col>
+
+                 <v-col cols="12" v-if="mailSend" :class="{disabled: mailCheck === true}"> <!-- 메일 발송 후 입력칸 show && 인증 완료 후 수정 방지 -->
+                 <v-row>
+                 <v-col cols="9">
+                   <v-text-field ref="code" label="code*" required v-model="code"/>
+                 </v-col>
+
+                 <v-col cols="3">
+                    <v-btn color="blue darken-1" size="55" style="width: 100%; font-weight: bold;" @click="sendCode">인증확인</v-btn>
+                 </v-col>
+                </v-row>
+                </v-col>
+                 
+
+                <v-col cols="12" :class="{disabled: idCheck === true}">
+                <v-row >
+                
                  <v-col cols="9">
                    <v-text-field ref="username" label="ID*" required v-model="username"
                     :rules="IDRules"/>
-                   
                  </v-col>
                  
                  <v-col cols="3">
                     <v-btn color="blue darken-1" size="55" style="width: 100%; font-weight: bold;" @click="validatinonOfID">중복확인</v-btn>
                  </v-col>
+                </v-row>
+                </v-col>
+
                  <v-col cols="12">
                    <v-text-field ref="password" label="Password*" type="password" required v-model="password"
                     :rules="pwdRules"
@@ -53,7 +88,7 @@
              </v-container>
              <small>*필수 입력값 (indicates required field)</small>
            </v-card-text>
-           <v-card-actions>
+           <v-card-actions :class="{disabled: loading === true}">
              <v-spacer></v-spacer>
              <v-btn color="blue darken-1" flat @click="$router.push('/login')">Close</v-btn>
              <v-btn color="blue darken-1" flat @click="submitSignUp">Save</v-btn>
@@ -76,14 +111,18 @@
             bday: '',
             phone: '',
             email: '',
-            checkID: false,
+            idCheck: false, // 아이디 중복검증 여부
+            code: '', // 이메일 인증 코드
+            mailSend:false, // 이메일 인증 메일 발송 여부
+            mailCheck: false, // 이메일 인증 완료 여부,
+            loading: false,
+
             // validation (조건식이 true가 아니면 문구 반환)
             IDRules: [
                 v => !!v || 'ID를 입력해주세요.', // 이메일 미입력 시 (!v => v가 false면 true를 반환함 // !!v => v가 true면 true)
                 v => v.trim().length > 0 && !/\s/.test(v) || '공백을 사용할 수 없습니다.', // 공백만 입력 혹은 포함 시
                 v => /^[a-zA-Z0-9]*$/.test(v) || '영어와 숫자만 허용됩니다.'
             ],
-
 
             emailRules: [
                 v => !!v || '이메일을 입력해주세요.', // 이메일 미입력 시 (!v => v가 false면 true를 반환함 // !!v => v가 true면 true)
@@ -117,15 +156,52 @@
         // 아이디 중복 검증
         async validatinonOfID(){
              try{
+
                const res= await axios.post('/api/members/idValidate', {username : this.username})
-               console.log(res)
                if(res.status===200){
                 alert("사용 가능한 아이디입니다.")
-                this.checkID=true
+                this.idCheck=true
                }
+               
              }catch(error){
                 alert(error.response.data.message) // 서버에서 검증 거침
              }
+        },
+
+        // 이메일 인증 메일 발송
+        async sendMailAuth(){
+          this.loading = true // 로딩 중
+          try{
+            const res=await axios.post('/api/members/sendMailAuth', {email:this.email})
+            if(res.status===200){
+              alert("인증번호가 발송되었습니다.")
+              this.mailSend=true // 인증코드 입력란  show
+            }
+          }catch(error){
+            alert(error.response.data.message) // 서버에서 검증 거침
+            this.$refs.email.focus();
+          }finally{
+            this.loading = false // 로딩 종료
+          }
+        },
+
+        // 이메일 인증 코드 확인
+        async sendCode(){
+          if(!this.code){
+            this.$refs.code.focus();
+            alert("인증코드를 입력해주세요.")
+            return
+          }
+
+          try{
+            const res=await axios.post('/api/members/mailAuthVal', {email:this.email,code:this.code})
+            if(res.status===200){
+              alert("이메일 인증이 완료되었습니다.")
+              this.mailCheck=true
+            }
+          }catch(error){
+            alert(error.response.data.message) // 서버에서 검증 거침
+          }
         },
 
         // 회원 가입
@@ -156,10 +232,18 @@
             this.$refs.phone.focus();
             return
         }
+        if(!this.email){
+          this.$refs.email.focus();
+          return
+        }
         // 아이디 중복 검증 미수행 시
-        if(this.checkID==false){
-          console.log(this.checkID)
+        if(this.idCheck==false){
           alert("아이디 중복확인이 필요합니다.");
+          return
+        }
+        // 이메일 인증 미수행 시
+        if(this.checkMail==false){
+          alert("이메일 인증을 진행해주세요.");
           return
         }
 
@@ -185,3 +269,11 @@
   }
 }
    </script>
+   
+  <style>
+  .disabled{
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  </style>

@@ -7,13 +7,13 @@
         <v-card-text>
           <v-container>
             <form>
-                <v-text-field label="이름" required v-model="name" ref="name"
+                <v-text-field label="이름" required v-model="name" ref="name" :disabled="loading"
                  :rules="nameRules"
                 ></v-text-field>
-                <v-text-field label="아이디" required v-model="id" ref="ID"
+                <v-text-field label="아이디" required v-model="id" ref="ID" :disabled="loading"
                  :rules="IDRules"
                 ></v-text-field>
-                <v-text-field label="가입 시 입력한 이메일" required v-model="email" ref="email"
+                <v-text-field label="가입 시 입력한 이메일" required v-model="email" ref="email" :disabled="loading"
                  :rules="emailRules"
                 ></v-text-field>
             </form>
@@ -23,9 +23,9 @@
             <div v-if="loading" class="mr-2">
                     <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </div>
-        <v-btn color="grey darken-1" style="font-weight: bold;" @click="findPwd">메일 발송</v-btn>
+        <v-btn color="grey darken-1" style="font-weight: bold;" @click="findPwd" :disabled="loading">메일 발송</v-btn>
         <span>|</span>
-        <v-btn color="grey darken-1" style="font-weight: bold;" @click="$router.push('/findid')">아이디 찾기</v-btn>
+        <v-btn color="grey darken-1" style="font-weight: bold;" @click="$router.push('/findid')" :disabled="loading">아이디 찾기</v-btn>
         </v-card-actions>
         
       </v-card>

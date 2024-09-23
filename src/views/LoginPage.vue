@@ -4,8 +4,14 @@
         <v-card-text>
           <v-container>
             <form>
-                <v-text-field label="ID" required v-model="username"></v-text-field>
-                <v-text-field type="Password" label="Password"  required v-model="password"></v-text-field>
+                <v-text-field width="400px" label="ID" required v-model="username">
+                    <template v-slot:append>
+            <span style="width: 38px; display: inline-block;"></span> <!-- 공백 추가 -->
+        </template>
+
+                </v-text-field>
+                <v-text-field :type="showPassword?'text':'password'" label="Password"  required v-model="password" 
+                :append-icon="showPassword?'mdi-eye':'mdi-eye-off'" @click:append="passwordVisibility"></v-text-field>
             </form>
           </v-container>
         </v-card-text>
@@ -32,11 +38,17 @@
         setup(){
             const username = ref('');
             const password = ref('');
+            const showPassword = ref(false);
 
             const id = ref('');
             const role = ref('');
 
             const router=useRouter();
+
+            // 비밀번호 보여주기
+            const passwordVisibility=()=>{
+                showPassword.value = !showPassword.value;
+            };
             
             // 회원가입 이동
             const ToSignUp=()=>{
@@ -78,6 +90,8 @@
             };
 
             return{
+                showPassword,
+                passwordVisibility,
                 ToSignUp,
                 ToFindId,
                 PostLogin,
