@@ -1,7 +1,10 @@
 <template>
     <v-sheet class="pa-2" rounded style="margin-top: 100px;">
         <v-card class="mx-auto px-6 py-8" max-width="500px" :elevation="12" style="min-width: 300px;">
-            <v-card-title>
+            <v-text icon  @click="loading ? null : $router.go(-1)" class="ma-6">
+            <v-icon>mdi-arrow-left</v-icon>
+            </v-text>
+            <v-card-title style="text-align: center;">
              <span class="headline">Find PWD</span>
            </v-card-title>
         <v-card-text>
@@ -15,17 +18,20 @@
                 ></v-text-field>
                 <v-text-field label="가입 시 입력한 이메일" required v-model="email" ref="email" :disabled="loading"
                  :rules="emailRules"
+                 @keyup.enter="findPwd"
                 ></v-text-field>
             </form>
           </v-container>
         </v-card-text>
-        <v-card-actions class="findInfo d-flex justify-center">
+        <v-card-actions class="findInfo d-flex justify-center" style="padding-top: 20px;">
             <div v-if="loading" class="mr-2">
                     <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </div>
         <v-btn color="grey darken-1" style="font-weight: bold;" @click="findPwd" :disabled="loading">메일 발송</v-btn>
         <span>|</span>
         <v-btn color="grey darken-1" style="font-weight: bold;" @click="$router.push('/findid')" :disabled="loading">아이디 찾기</v-btn>
+        <span>|</span>
+        <v-btn color="grey darken-1" style="font-weight: bold;" @click="$router.push('/signup')" :disabled="loading">회원가입</v-btn>
         </v-card-actions>
         
       </v-card>
