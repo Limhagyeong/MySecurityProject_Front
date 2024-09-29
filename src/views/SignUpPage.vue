@@ -12,7 +12,7 @@
              <form>
              <v-row>
                <v-col cols="9">
-                 <v-text-field ref="name" label="Name*" required v-model="name"/>
+                 <v-text-field ref="name" label="Name*" required v-model="name" :rules="nameRules"/>
                </v-col>
                <v-radio-group v-model="gender">
                   <v-radio ref="gender" label="Male*" value="M"/>
@@ -68,9 +68,10 @@
               </v-col>
 
                <v-col cols="12">
-                 <v-text-field ref="password" label="Password*" type="password" required v-model="password"
+                 <v-text-field ref="password" label="Password*" :type="showPassword? 'text' : 'password'" required v-model="password"
                   :rules="pwdRules"
-                 />
+                  :append-icon="showPassword?'mdi-eye':'mdi-eye-off'" @click:append="passwordVisibility"
+                  />
                </v-col>
                <v-col cols="12">
                  <v-text-field ref="bday" label="Birth* (YYYY-MM-DD)" required v-model="bday"
@@ -114,6 +115,7 @@
           mailSend:false, // 이메일 인증 메일 발송 여부
           mailCheck: false, // 이메일 인증 완료 여부,
           loading: false,
+          showPassword: false,
 
           // validation (조건식이 true가 아니면 문구 반환)
           IDRules: [
@@ -145,6 +147,12 @@
 
           dateRules: [
              v => /^\d{4}-\d{2}-\d{2}$/.test(v) || 'YYYY-MM-DD 형식으로 입력해주세요.',
+          ],
+
+          nameRules: [
+          v => !!v || '이름을 입력해주세요.', // 이름 미입력 시
+          v => v.trim().length > 0 && !/\s/.test(v) || '공백을 사용할 수 없습니다.', // 공백만 입력 혹은 포함 시
+          v => !/\d/.test(v) || '숫자를 포함할 수 없습니다.', // 숫자 포함 시
           ]
       }
     },
@@ -194,7 +202,14 @@
           }
         }catch(error){
           alert(error.response.data.message) // 서버에서 검증 거침
+        }finally{
+          this.loading = false // 로딩 종료
         }
+      },
+
+      // 비밀번호 보여주기
+      passwordVisibility() {
+      this.showPassword = !this.showPassword;
       },
 
       // 회원 가입
