@@ -16,7 +16,7 @@
                     <span style="width: 38px; display: inline-block;"></span> <!-- 공백 추가 -->
                 </template>
                 </v-text-field>
-                <v-text-field :type="showPassword?'text':'password'" label="Password"  required v-model="password" ref="passwordRef" :rules="pwdRules" 
+                <v-text-field :type="showPassword?'text':'password'" label="Password"  required v-model="password" ref="passwordRef" 
                 @blur="passwordVal"
                 :error-messages="passwordError"
                 :append-icon="showPassword?'mdi-eye':'mdi-eye-off'" @click:append="passwordVisibility"
@@ -97,12 +97,13 @@
       formData.append("password", this.password);
 
       try {
-        await axios.post("/api/loginProcess", formData);
-        this.checkSession();
-        this.$router.push("/");
+        const res=await axios.post("/api/loginProcess", formData);
+          if(res.status===200){
+            this.checkSession();
+            this.$router.push("/");
+          }
       } catch (error) {
-        alert("로그인 실패");
-        console.error("로그인 실패:", error);
+        alert(error.response.data.error);
       }
     },
     async checkSession() {

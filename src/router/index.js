@@ -4,6 +4,7 @@ import LoginPage from '@/views/LoginPage.vue';
 import SignUpPage from '@/views/SignUpPage.vue';
 import FindIdPage from '@/views/FindIdPage.vue';
 import FindPwdPage from '@/views/FindPwdPage copy.vue'
+import PostingPage from '@/views/PostingPage.vue';
 const routes = [
   {
     path: '/',
@@ -29,6 +30,11 @@ const routes = [
     path: '/findpwd',
     name: 'FindPwdPage',
     component: FindPwdPage
+  },
+  {
+    path: '/posting',
+    name: 'PostingPage',
+    component: PostingPage
   },
 ];
 
