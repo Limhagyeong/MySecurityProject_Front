@@ -1,18 +1,18 @@
     <template>
  <div>
     <h1>Main</h1>
-    <p>User ID: {{ userId }}</p>
-    <p>User Role: {{ userRole }}</p>
+    <p>User ID: {{ sessionId }}</p>
+    <p>User Role: {{ sessionRole }}</p>
   </div>
     </template>
 
     <script>
 export default{
-    computed: {
-  userId() {
+computed: {
+  sessionId() {
     return this.$store.state.id;
   },
-  userRole() {
+  sessionRole() {
     return this.$store.state.role;
   }
 }

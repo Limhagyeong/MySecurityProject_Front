@@ -26,8 +26,10 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn icon @click="$router.push('/login')">
-        <v-icon>mdi-login</v-icon>
+      
+      <v-btn icon @click="sessionRole==='ROLE_USER' || sessionRole==='ROLE_ADMIN' ? logout() : $router.push('/login')">
+        <v-icon v-if="(sessionRole!=='ROLE_USER') && (sessionRole!=='ROLE_ADMIN')">mdi-login</v-icon>
+        <v-icon v-else>mdi-account</v-icon>
       </v-btn>
 
       <v-btn icon>
@@ -40,6 +42,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default{
   data(){
@@ -59,9 +62,26 @@ export default{
     },
     isFindpwdPage(){
       return this.$route.path === '/findpwd';
+    },
+    sessionId(){
+      return this.$store.state.id;
+    },
+    sessionRole(){
+      return this.$store.state.role;
     }
     
   },
+  methods:{
+    async logout(){
+      try{
+        await axios.post('/api/logout') // 로그아웃 요청
+        this.$store.dispatch('logout') // sessionID, ROLE 초기화
+        this.$router.push('/login') // 로그인 페이지로 이동
+      }catch(error){
+        console.log("로그아웃 실패"+error.response.data.message)
+      }
+    }
+  }
 }
 </script>
 <style>

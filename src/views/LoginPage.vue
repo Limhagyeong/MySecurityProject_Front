@@ -109,7 +109,6 @@
     async checkSession() {
       try {
         const res = await axios.get("/api/members");
-        console.log(res.data)
         this.$store.dispatch('login',
         {
           id: res.data.data.id, 
