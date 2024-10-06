@@ -40,7 +40,7 @@
   </template>
   
   <script>
-    import axios from 'axios';
+    import api from '../api';
 
     export default {
     data() {
@@ -97,7 +97,7 @@
       formData.append("password", this.password);
 
       try {
-        const res=await axios.post("/api/loginProcess", formData);
+        const res=await api.post("/loginProcess", formData);
           if(res.status===200){
             this.checkSession();
             this.$router.push("/");
@@ -108,7 +108,7 @@
     },
     async checkSession() {
       try {
-        const res = await axios.get("/api/members");
+        const res = await api.get("/members");
         this.$store.dispatch('login',
         {
           id: res.data.data.id, 

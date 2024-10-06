@@ -36,7 +36,7 @@
   </template>
   
   <script>
-    import axios from 'axios';
+    import api from '../api';
 
     export default {
         data(){
@@ -74,7 +74,7 @@
                 this.loading = true;    
 
                 try{
-                    const res=await axios.post("/api/members/findUserInfo", {name : this.name , email : this.email,   requestType: "findID"});
+                    const res=await api.post("/members/findUserInfo", {name : this.name , email : this.email,   requestType: "findID"});
                     console.log(res)
                     if(res.status===200){
                         alert("아이디 정보 메일이 발송되었습니다.");

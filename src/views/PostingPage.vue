@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import api from '../api';
 
 export default{
 data(){
@@ -26,7 +26,7 @@ methods:{
             const formData=new FormData()
             formData.append('image',this.imgFile)
             
-            const res=await axios.post("/api/s3/upload",formData)
+            const res=await api.post("/s3/upload",formData)
             if(res.status===200){
                 alert("파일이 업로드 되었습니다")
             }

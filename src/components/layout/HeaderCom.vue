@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import api from '../../api';
 
 export default{
   data(){
@@ -74,7 +74,7 @@ export default{
   methods:{
     async logout(){
       try{
-        await axios.post('/api/logout') // 로그아웃 요청
+        await api.post('/logout') // 로그아웃 요청
         this.$store.dispatch('logout') // sessionID, ROLE 초기화
         this.$router.push('/login') // 로그인 페이지로 이동
       }catch(error){

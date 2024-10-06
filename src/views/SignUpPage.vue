@@ -97,7 +97,7 @@
  </template>
  
  <script>
- import axios from 'axios';
+ import api from '../api';
 
  export default{
     data(){
@@ -163,7 +163,7 @@
       async validatinonOfID(){
            try{
 
-             const res= await axios.post('/api/members/idValidate', {username : this.username})
+             const res= await api.post('/members/idValidate', {username : this.username})
              if(res.status===200){
               alert("사용 가능한 아이디입니다.")
               this.idCheck=true
@@ -178,7 +178,7 @@
       async sendMailAuth(){
         this.loading = true // 로딩 중
         try{
-          const res=await axios.post('/api/members/sendMailAuth', {email:this.email})
+          const res=await api.post('/members/sendMailAuth', {email:this.email})
           if(res.status===200){
             alert("인증번호가 발송되었습니다.")
             this.mailSend=true // 인증코드 입력란  show
@@ -195,7 +195,7 @@
       async sendCode(){
 
         try{
-          const res=await axios.post('/api/members/mailAuthVal', {email:this.email,code:this.code})
+          const res=await api.post('/members/mailAuthVal', {email:this.email,code:this.code})
           if(res.status===200){
             alert("이메일 인증이 완료되었습니다.")
             this.mailCheck=true
@@ -261,7 +261,7 @@
       formData.append("email", this.email);
 
       try {
-        const res = await axios.post('/api/members', formData);
+        const res = await api.post('/members', formData);
         if (res.status === 200) {
           alert("회원가입 성공");
           this.$router.push('/login');

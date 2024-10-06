@@ -39,7 +39,7 @@
   </template>
   
   <script>
-    import axios from 'axios';
+    import api from '../api';
 
     export default {
         data(){
@@ -85,7 +85,7 @@
                 this.loading = true;    
 
                 try{
-                    const res=await axios.post("/api/members/findUserInfo", {name : this.name , email : this.email,   requestType: "findPwd"});
+                    const res=await api.post("/members/findUserInfo", {name : this.name , email : this.email,   requestType: "findPwd"});
                     console.log(res)
                     if(res.status===200){
                         alert("임시 비밀번호가 메일로 발송되었습니다.");
