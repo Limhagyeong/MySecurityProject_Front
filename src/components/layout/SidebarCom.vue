@@ -22,13 +22,15 @@
     <v-divider></v-divider>
 
     <v-list density="compact" nav>
-      <v-list-item prepend-icon="mdi-home-city" title="Home" value="home" @click="handleClick('')"></v-list-item>
-      <v-list-item prepend-icon="mdi-account" title="Posting"  value="post"
-      @click="handleClick('posting')" 
-      :class="{ 'active': isActive }">
+      <v-list-item 
+        v-for="item in items"
+        :key="item.title"
+        link
+        :to="item.to"
+        :prepend-icon="item.icon"
+        :title="item.title"
+      >
       </v-list-item>
-      <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-      <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -39,18 +41,12 @@ export default {
     return {
       drawer: true,
       rail: false,
-      isActive : false
+      isActive : false,
+      items:[
+        {title:'Home', icon: 'mdi-home-city', to:"/"},
+        {title:'Posting', icon: 'mdi-account', to:"/posting"},
+      ]
     }
-  },
-  methods: {
-    handleClick(value) {
-      this.isActive = value; 
-      this.$router.push(`/${value}`); // 해당 value에 맞춰 페이지 이동
-    },
-  },
-  beforeRouteLeave(to, from, next) {
-    this.isActive=false 
-    next(); 
   },
 }
 </script>
