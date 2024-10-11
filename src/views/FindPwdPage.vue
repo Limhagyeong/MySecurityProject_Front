@@ -1,5 +1,6 @@
 <template>
-    <v-sheet class="pa-2" rounded style="margin-top: 100px;">
+    <v-container>
+    <v-sheet class="pa-2" rounded style="margin-top: 80px;">
         <v-card class="mx-auto px-6 py-8" max-width="500px" :elevation="12" style="min-width: 300px;">
             <v-text icon  @click="loading ? null : $router.go(-1)" class="ma-6">
             <v-icon>mdi-arrow-left</v-icon>
@@ -36,6 +37,7 @@
         
       </v-card>
     </v-sheet>
+</v-container>
   </template>
   
   <script>

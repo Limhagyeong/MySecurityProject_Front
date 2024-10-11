@@ -1,18 +1,18 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-container fluid>
+  <v-app app>
+    <v-main app>
+      <v-container app fluid>
         <v-row>
           <!-- 헤더 -->
             <HeaderCom />
         </v-row>
-        <v-row v-show="!isLoginPage && !isSignUpPage && !isFindidPage && !isFindpwdPage">
+        <v-row v-if="!isLoginPage && !isSignUpPage && !isFindidPage && !isFindpwdPage">
           <!-- 사이드바 (로그인, 회원가입 페이지에서는 숨김) -->
             <SidebarCom />
         </v-row>
           <!-- 메인 콘텐츠 -->
-           <v-row>
-          <v-col cols="10">
+           <v-row justify="center" align="start">
+            <v-col cols="auto">
             <router-view />
           </v-col>
         </v-row>

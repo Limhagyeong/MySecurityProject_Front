@@ -1,4 +1,5 @@
 <template>
+  <v-container>
   <v-sheet class="pa-2" rounded>
      <v-card class="mx-auto px-6 py-8" max-width="550px" :elevation="12" style="min-width: 300px;">
       <v-text icon @click="loading ? null : $router.go(-1)" class="ma-6">
@@ -94,6 +95,7 @@
          </v-card-actions>
        </v-card>
      </v-sheet>
+    </v-container>
  </template>
  
  <script>
@@ -178,7 +180,7 @@
       async sendMailAuth(){
         this.loading = true // 로딩 중
         try{
-          const res=await api.post('/members/sendMailAuth', {email:this.email})
+          const res=await api.post('/mail/sendMailAuth', {email:this.email})
           if(res.status===200){
             alert("인증번호가 발송되었습니다.")
             this.mailSend=true // 인증코드 입력란  show
@@ -195,7 +197,7 @@
       async sendCode(){
 
         try{
-          const res=await api.post('/members/mailAuthVal', {email:this.email,code:this.code})
+          const res=await api.post('/mail/mailAuthVal', {email:this.email,code:this.code})
           if(res.status===200){
             alert("이메일 인증이 완료되었습니다.")
             this.mailCheck=true

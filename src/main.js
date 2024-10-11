@@ -1,3 +1,4 @@
+// Vue instance 생성
 import { createApp } from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'

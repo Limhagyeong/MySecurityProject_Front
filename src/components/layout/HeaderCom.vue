@@ -5,7 +5,7 @@
       
       <!-- 검색 필드 -->
       <v-spacer></v-spacer>
-      <v-text-field
+      <!-- <v-text-field
         v-show="!isLoginPage && !isSignUpPage && !isFindidPage && !isFindpwdPage"
         v-model="keyword"
         placeholder="Search Keyword"
@@ -19,7 +19,7 @@
         </v-icon>
       </v-btn>
 
-      </v-text-field>  
+      </v-text-field>   -->
 
       <v-spacer></v-spacer>
       <v-btn icon v-show="false">
@@ -30,10 +30,6 @@
       <v-btn icon @click="sessionRole==='ROLE_USER' || sessionRole==='ROLE_ADMIN' ? logout() : $router.push('/login')">
         <v-icon v-if="(sessionRole!=='ROLE_USER') && (sessionRole!=='ROLE_ADMIN')">mdi-login</v-icon>
         <v-icon v-else>mdi-account</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
 
     </v-app-bar>
