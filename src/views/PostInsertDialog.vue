@@ -47,7 +47,7 @@
             <v-btn
               text="Close"
               variant="plain"
-              @click="dialog=false"
+              @click="dialogClose"
             ></v-btn>
   
             <v-btn
@@ -104,6 +104,11 @@ export default {
         alert(error.response.data.message);
       }
     },
+    // 다이얼로그 close
+    dialogClose(){
+      this.defaultImg=require('@/assets/image.png')
+      this.dialog=false
+    }
   }
 }
 </script>
