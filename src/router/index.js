@@ -5,6 +5,7 @@ import SignUpPage from '@/views/SignUpPage.vue';
 import FindIdPage from '@/views/FindIdPage.vue';
 import FindPwdPage from '@/views/FindPwdPage.vue'
 import PostingPage from '@/views/PostingPage.vue';
+import PostImgCard from '@/views/PostImgCard.vue';
 const routes = [
   {
     path: '/',
@@ -35,6 +36,10 @@ const routes = [
     path: '/posting',
     name: 'PostingPage',
     component: PostingPage
+  },
+  {
+    path: '/postimgcard',
+    component: PostImgCard
   },
 ];
 

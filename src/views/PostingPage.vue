@@ -7,17 +7,23 @@
           <v-img 
             :src="require('@/assets/default_profile.png')" 
             class="rounded-avatar"
-            @click="selectImage"
           />
         </div>
         <v-col>
           <v-row  style="width: 380px;" justify="start">
             <span class="mr-4" style="font-weight: bold; font-size: 23px;">{{ this.$store.state.id }}</span>
             <v-btn class="mr-2" @click="openPostDialog">게시물 올리기</v-btn>
-            <v-btn @click="selectImage">프로필 편집</v-btn>
+            <v-btn>프로필 편집</v-btn>
           </v-row>
           <!-- 다이얼로그 오픈 -->
-          <post-insert-dialog ref="PostInsertDialog" v-model:show="dialog"  :show="hidden"/>
+           <!--uploadPost 속성을 자식에게 넘기고  
+               @update:uploadPost="uploadOK"를 통해 자식에서 일어난 업로드 상태 변화를 감지 -->
+          <post-insert-dialog ref="PostInsertDialog" 
+                              v-model:show="dialog" 
+                              :show="hidden" 
+                              :uploadPost="uploadPost"
+                              @update:uploadPost="uploadOK"
+                              />
           
           <v-row style="width: 380px; margin:20px 0px 0px -10px;" justify="start">
             <span class="mr-4">게시물 0</span>
@@ -31,29 +37,68 @@
     <v-row>
       <v-divider style="margin-top: 20px; width: 1000px;"></v-divider>
     </v-row>
+    <template v-if="!postListNull">
+        <PostImgCard :postList="postList" />
+    </template>
+    <div v-else>게시물이 없습니다.</div>
 
   </v-container>
 </template>
 
 <script>
 import PostInsertDialog from './PostInsertDialog.vue';
+import api from '@/api';
+import PostImgCard from './PostImgCard.vue';
 export default {
   data() {
     return {
-      imgFile: '',
-      content: '',
-      id: '',
-      dialog: false
+      username: '',
+      dialog: false,
+      postList:[],
+      postListNull: true, // 게시물 출력 제어,
+      uploadPost: false, // 게시물 업로드 감지
     };
   },
   components: {
     PostInsertDialog,
+    PostImgCard
+  },
+  mounted(){
+    // 게시물 출력
+      this.selectPost()
   },
   methods: {
+    // 게시물 가져오기 및 출력
+    async selectPost(){
+      try{
+        this.username=this.$store.state.id;   
+        const res=await api.get(`/post/${this.username}`)
+        if(res.status === 200){
+          console.log(res.data)
+          this.postList=res.data.data // 게시물 담음
+          this.postListNull=false // 출력
+        }
+      }catch(error){
+        alert(error.response.data.message);
+      }
+    },
+    // 게시물 업로드 다이얼로그 오픈
     openPostDialog() {
-      this.$refs.PostInsertDialog.dialog = true; // 다이얼로그 오픈
-    },    
+      this.$refs.PostInsertDialog.dialog = true; 
+    },
+    // 자식에서 보낸 업로드 감지
+    uploadOK(OK){
+      this.uploadPost=OK
+    }
   },
+  // uploadPost 속성이 변할때 마다 감지해서 게시물 목록 리랜더링
+  watch:{
+    uploadPost(OK){
+      if(OK){ 
+        this.selectPost()
+      }
+    }
+  }
 };
 </script>
 

@@ -24,6 +24,7 @@
             <v-col cols="12" md="6" sm="6"> 
               <v-textarea 
               class="hg_textarea"
+              v-model="content"
               label="사진에 담긴 경험을 공유해주세요!"
               hide-details
               >
@@ -64,10 +65,18 @@
 
 <script>
 import api from '@/api';
+
 export default {
+  props: {
+    // 업로드 감지 속성
+    uploadPost:{
+      type:Boolean
+    }
+  },
   data: () => ({
     dialog: false,
-    defaultImg: require('@/assets/image.png')
+    defaultImg: require('@/assets/image.png'),
+    content: '',
   }),
   methods:{
     // 이미지 선택창 오픈
@@ -86,8 +95,8 @@ export default {
       try {
         console.log(this.imgFile);
         const formData = new FormData();
-        formData.append('p_img', this.imgFile);
-        formData.append('p_content', this.content);
+        formData.append('img', this.imgFile);
+        formData.append('content', this.content);
         formData.append('username', this.$store.state.id);
 
         const res = await api.post('/post', formData, {
@@ -98,7 +107,10 @@ export default {
 
         if (res.status === 200) {
           alert('게시물이 업로드되었습니다');
+          this.$emit('update:uploadPost', true); // 부모에게 업로드 알림
           this.dialog=false;
+          this.defaultImg=require('@/assets/image.png')
+          this.content=''
         }
       } catch (error) {
         alert(error.response.data.message);
@@ -106,8 +118,9 @@ export default {
     },
     // 다이얼로그 close
     dialogClose(){
-      this.defaultImg=require('@/assets/image.png')
       this.dialog=false
+      this.defaultImg=require('@/assets/image.png')
+      this.content=''
     }
   }
 }
