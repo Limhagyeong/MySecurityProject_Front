@@ -33,14 +33,30 @@
         </v-col>
       </v-col>
     </v-row>
-    <!-- 포스팅 출력 -->
+
+    <!-- 게시물 목록 출력 -->
     <v-row>
       <v-divider style="margin-top: 20px; width: 1000px;"></v-divider>
+      <!-- 목록 로딩 중 -->
+        <v-row v-if="isLoading" align="center" justify="center" style="margin-top: 200px;">
+          <v-progress-circular
+            color="grey-lighten-5"
+            indeterminate
+          />
+        </v-row>
     </v-row>
-    <template v-if="!postListNull">
+    <!-- 목록 받기 완료 -->
+    <v-row style="margin-top: 40px;">
+    <template v-if="!isLoading&&postList.length>0">
         <PostImgCard :postList="postList" />
     </template>
-    <div v-else>게시물이 없습니다.</div>
+    </v-row>
+    <!-- 게시물 없는 사용자 -->
+    <v-row>
+    <div v-if="!isLoading&&postList.length===0">
+      당신의 경험을 공유해보세요
+    </div>
+    </v-row> 
 
   </v-container>
 </template>
@@ -55,7 +71,7 @@ export default {
       username: '',
       dialog: false,
       postList:[],
-      postListNull: true, // 게시물 출력 제어,
+      isLoading: true, // 목록 받기 전
       uploadPost: false, // 게시물 업로드 감지
     };
   },
@@ -65,7 +81,7 @@ export default {
   },
   mounted(){
     // 게시물 출력
-      this.selectPost()
+       this.selectPost()
   },
   methods: {
     // 게시물 가져오기 및 출력
@@ -76,10 +92,11 @@ export default {
         if(res.status === 200){
           console.log(res.data)
           this.postList=res.data.data // 게시물 담음
-          this.postListNull=false // 출력
         }
       }catch(error){
         alert(error.response.data.message);
+      }finally{
+        this.isLoading=false // api 요청 완료 후 로딩 해제
       }
     },
     // 게시물 업로드 다이얼로그 오픈
