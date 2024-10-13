@@ -12,6 +12,7 @@
     <v-img 
       :src="post.imgUrl" 
       height="300px"
+      cover
     />
   </v-card>
   <div v-else>
