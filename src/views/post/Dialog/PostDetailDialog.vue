@@ -1,7 +1,7 @@
 <template>
     <v-container>
       <v-dialog
-        v-model="detailDialog"
+      v-model="detailDialog"
         max-width="850"
         persistent
       >
@@ -47,9 +47,9 @@
   
             <v-btn
               color="primary"
-              text="Save"
+              text="delete"
               variant="tonal"
-              @click="upload"
+              @click="deletePost"
             ></v-btn>
           </v-card-actions>
         </v-card>
@@ -58,6 +58,7 @@
   </template>
 
   <script>
+  import api from '@/api';
   export default{
     props:{
       selectedPost: {
@@ -68,13 +69,26 @@
     data(){
       return{
         detailDialog: false,
-        username: this.$store.state.id
+        username: this.$store.state.id,
       }
     },
     methods:{
       dialogClose(){
         this.detailDialog=false
-      }
+        console.log(this.selectedPost.pnum)
+      },
+      async deletePost(){
+        try{
+          const res=await api.delete(`/post/${this.selectedPost.pnum}`)
+          if(res.status === 200){
+          alert("게시물이 삭제되었습니다.")
+          this.detailDialog=false
+          this.$store.dispatch('deleteOK', true); // 게시물 삭제 상태 true로 변경
+          }
+        }catch(error){
+          alert(error.response.data.message);
+        }
     }
   }
+}
   </script>

@@ -50,7 +50,9 @@
     <!-- 목록 받기 완료 (로딩종료) -->
     <v-row style="margin-top: 40px;">
     <template v-if="!isLoading&&postList.length>0">
-        <PostImgCard :postList="postList" />
+        <PostImgCard 
+        :postList="postList"
+        />
     </template>
     </v-row>
     <!-- 게시물 없는 사용자 -->
@@ -77,11 +79,17 @@ export default {
       postCount:'',
       isLoading: true, // 목록 받기 전
       uploadPost: false, // 게시물 업로드 감지
+      deleteState: false
     };
   },
   components: {
     PostInsertDialog,
     PostImgCard
+  },
+  computed:{
+    deletePost(){
+      return this.$store.state.deleteState // 스토어에 저장된 게시물 삭제 상태 가져옴
+    }
   },
   mounted(){
     // 게시물 출력
@@ -119,6 +127,12 @@ export default {
       if(OK){ 
         this.selectPost()
         this.uploadPost=false
+      }
+    },
+    deletePost(OK){
+      if(OK){
+        this.selectPost()
+        this.$store.dispatch('deleteOK', false); // 스토어 다시 false로 
       }
     }
   }
