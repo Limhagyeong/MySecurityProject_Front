@@ -1,66 +1,69 @@
 <template>
-    <v-row>
-    <v-col 
-     v-for="(post,index) in postList"
-     :key="index"
-     :post="post"
-     cols="4"
-    >
-    <v-card v-if="postList" @click="openDetailDialog(post)">
-      <v-img 
-        :src="post.imgUrl" 
-        height="300px"
-      />
-    </v-card>
-    <div v-else>
-         Post data
-    </div>
-    </v-col>
-    </v-row>
+  <v-container style="width: 1000px; margin: auto;" >
+  <v-row justify="center" align="center">
+  <v-col
+   v-for="(post,index) in postList"
+   :key="index"
+   :post="post"
+   cols="4"
+   style="margin: 0px -10px -15px -10px;"
+  >
+  <v-card class="mx-auto" v-if="postList" @click="openDetailDialog(post)" style="border-radius: 0;"> 
+    <v-img 
+      :src="post.imgUrl" 
+      height="300px"
+    />
+  </v-card>
+  <div v-else>
+       Post data
+  </div>
+  </v-col>
+</v-row>
+</v-container>
 
-    <!-- 게시물 상세 다이얼로그 오픈 -->
+  <!-- 게시물 상세 다이얼로그 오픈 -->
 
-      <post-detail-dialog
-         ref="detailDialog"
-         v-model="detailDialog"
-        :show="hidden" 
-        :selectedPost="selectedPost"
-      />
+    <post-detail-dialog
+       ref="detailDialog"
+       v-model="detailDialog"
+      :show="hidden" 
+      :selectedPost="selectedPost"
+    />
 
-  </template>
+</template>
 
-  
+
 
 <script>
 import PostDetailDialog from './Dialog/PostDetailDialog.vue';
 export default {
-  props: {
-    postList: {
-        type: Array,
-        required: true
-    }
-  },
-  data(){
-    return{
-        post:'',
-        selectedPost: '',
-        detailDialog: false,
-    }
-  },
-  components:{
-    PostDetailDialog
-  },
-  mounted(){
-    console.log('Received post prop:', this.posts);
-  },
-  methods:{
-    // 게시물 상세 다이얼로그 오픈
-    openDetailDialog(post){
-      console.log("클릭")
-      this.selectedPost=post;
-      this.$refs.detailDialog.detailDialog=true;
-    }
+props: {
+  postList: {
+      type: Array,
+      required: true
   }
+},
+data(){
+  return{
+      post:'',
+      selectedPost: '',
+      detailDialog: false,
+  }
+},
+components:{
+  PostDetailDialog
+},
+mounted(){
+  console.log('Received post prop:', this.posts);
+},
+methods:{
+  // 게시물 상세 다이얼로그 오픈
+  openDetailDialog(post){
+    console.log("클릭")
+    this.selectedPost=post;
+    this.$refs.detailDialog.detailDialog=true;
+  }
+}
 
 }
 </script>

@@ -7,8 +7,6 @@
       >
   
         <v-card
-          prepend-icon="mdi-account"
-          title="Post"
           style="height: 100%;"
         >
           <v-card-text style="display: flex; height: 100%;" no-gutters>
@@ -24,7 +22,7 @@
             <v-col cols="12" md="6" sm="6"> 
               <v-row style="margin-top: 10px;">
                 <v-col style="font-weight: bold; font-size: 20px;">
-                  {{ username }}
+                  <v-icon prepend>mdi-account</v-icon> {{ username }}
                   <v-divider style="width: 900px"></v-divider>
                 </v-col>
               </v-row>
