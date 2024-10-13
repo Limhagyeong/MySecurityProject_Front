@@ -2,7 +2,8 @@
   <v-container>
     <v-row justify="center">
       <v-col class="d-flex align-center" cols="auto">
-        <!-- 이미지 -->
+
+        <!-- 프로필 이미지 -->
         <div class="avatar-container"  style="margin-right: 100px;">
           <v-img 
             :src="require('@/assets/default_profile.png')" 
@@ -15,10 +16,11 @@
             <v-btn class="mr-2" @click="openPostDialog">게시물 올리기</v-btn>
             <v-btn>프로필 편집</v-btn>
           </v-row>
-          <!-- 다이얼로그 오픈 -->
+
+          <!-- 게시물 작성 다이얼로그 오픈 -->
            <!--uploadPost 속성을 자식에게 넘기고  
-               @update:uploadPost="uploadOK"를 통해 자식에서 일어난 업로드 상태 변화를 감지 -->
-          <post-insert-dialog ref="PostInsertDialog" 
+               자식에서 @update:uploadPost="uploadOK"를 통해 부모에게 업로드 알림 -->
+          <post-insert-dialog ref="InsertDialog" 
                               v-model:show="dialog" 
                               :show="hidden" 
                               :uploadPost="uploadPost"
@@ -26,7 +28,7 @@
                               />
           
           <v-row style="width: 380px; margin:20px 0px 0px -10px;" justify="start">
-            <span class="mr-4">게시물 0</span>
+            <span class="mr-4">게시물 {{ postCount }}</span>
             <span class="mr-4">팔로워 0</span>
             <span class="mr-4">팔로잉 0</span>
           </v-row>
@@ -45,7 +47,7 @@
           />
         </v-row>
     </v-row>
-    <!-- 목록 받기 완료 -->
+    <!-- 목록 받기 완료 (로딩종료) -->
     <v-row style="margin-top: 40px;">
     <template v-if="!isLoading&&postList.length>0">
         <PostImgCard :postList="postList" />
@@ -62,15 +64,17 @@
 </template>
 
 <script>
-import PostInsertDialog from './PostInsertDialog.vue';
+import PostInsertDialog from './Dialog/PostInsertDialog.vue';
 import api from '@/api';
-import PostImgCard from './PostImgCard.vue';
+import PostImgCard from './PostImgCard.vue'
+
 export default {
   data() {
     return {
       username: '',
       dialog: false,
       postList:[],
+      postCount:'',
       isLoading: true, // 목록 받기 전
       uploadPost: false, // 게시물 업로드 감지
     };
@@ -92,6 +96,7 @@ export default {
         if(res.status === 200){
           console.log(res.data)
           this.postList=res.data.data // 게시물 담음
+          this.postCount = this.postList.length // 게시물 개수
         }
       }catch(error){
         alert(error.response.data.message);
@@ -101,18 +106,19 @@ export default {
     },
     // 게시물 업로드 다이얼로그 오픈
     openPostDialog() {
-      this.$refs.PostInsertDialog.dialog = true; 
+      this.$refs.InsertDialog.dialog=true; 
     },
     // 자식에서 보낸 업로드 감지
     uploadOK(OK){
       this.uploadPost=OK
-    }
+    },
   },
   // uploadPost 속성이 변할때 마다 감지해서 게시물 목록 리랜더링
   watch:{
     uploadPost(OK){
       if(OK){ 
         this.selectPost()
+        this.uploadPost=false
       }
     }
   }

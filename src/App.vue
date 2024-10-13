@@ -1,7 +1,7 @@
 <template>
-  <v-app app>
-    <v-main app>
-      <v-container app fluid>
+  <v-app>
+    <v-main>
+      <v-container fluid>
         <v-row>
           <!-- 헤더 -->
             <HeaderCom />
@@ -12,7 +12,7 @@
         </v-row>
           <!-- 메인 콘텐츠 -->
            <v-row justify="center" align="start">
-            <v-col cols="auto">
+            <v-col>
             <router-view />
           </v-col>
         </v-row>

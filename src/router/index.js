@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '@/views/MainPage.vue';
-import LoginPage from '@/views/LoginPage.vue'; 
-import SignUpPage from '@/views/SignUpPage.vue';
-import FindIdPage from '@/views/FindIdPage.vue';
-import FindPwdPage from '@/views/FindPwdPage.vue'
-import PostingPage from '@/views/PostingPage.vue';
-import PostImgCard from '@/views/PostImgCard.vue';
+import LoginPage from '@/views/member/LoginPage.vue'; 
+import SignUpPage from '@/views/member/SignUpPage.vue';
+import FindIdPage from '@/views/member/FindIdPage.vue';
+import FindPwdPage from '@/views/member/FindPwdPage.vue'
+import PostingPage from '@/views/post/PostingPage.vue';
+import PostImgCard from '@/views/post/PostImgCard.vue';
 const routes = [
   {
     path: '/',
