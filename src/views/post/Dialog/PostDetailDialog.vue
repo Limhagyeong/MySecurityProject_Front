@@ -145,7 +145,7 @@
         updateDialog: false,
         content: '',
         defaultImg: '',
-        imgFile: this.$store.state.imgFile
+        imgFile:''
       }
     },
     mounted(){
@@ -172,7 +172,6 @@
       this.detailDialog=false;
       this.content=this.selectedPost.content;
       this.defaultImg=this.selectedPost.imgUrl;
-      this.imgFile=this.$store.state.imgFile
       console.log(this.imgFile)
       this.updateDialog=true;
     },
