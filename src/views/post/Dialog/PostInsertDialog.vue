@@ -88,12 +88,12 @@ export default {
       const file = event.target.files[0];
       if(file){
         this.defaultImg=URL.createObjectURL(file);
+        this.$store.dispatch('saveImgFile', file); // store에 최초 업로드 이미지 파일 저장
       }
     },
     // 게시물 insert
     async upload() {
       try {
-        console.log(this.imgFile);
         const formData = new FormData();
         formData.append('img', this.imgFile);
         formData.append('content', this.content);

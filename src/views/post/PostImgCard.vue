@@ -23,13 +23,13 @@
 </v-container>
 
   <!-- 게시물 상세 다이얼로그 오픈 -->
-
     <post-detail-dialog
        ref="detailDialog"
        v-model="detailDialog"
       :show="hidden" 
       :selectedPost="selectedPost"
     />
+
 
 </template>
 
@@ -48,20 +48,17 @@ data(){
   return{
       post:'',
       selectedPost: '',
-      detailDialog: false,
+      detailDialog: false
   }
 },
 components:{
   PostDetailDialog
 },
-mounted(){
-  console.log('Received post prop:', this.posts);
-},
 methods:{
   // 게시물 상세 다이얼로그 오픈
   openDetailDialog(post){
-    console.log("클릭")
     this.selectedPost=post;
+    console.log(post)
     this.$refs.detailDialog.detailDialog=true;
   }
 }

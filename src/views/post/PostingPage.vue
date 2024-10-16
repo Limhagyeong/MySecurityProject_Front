@@ -21,7 +21,7 @@
            <!--uploadPost 속성을 자식에게 넘기고  
                자식에서 @update:uploadPost="uploadOK"를 통해 부모에게 업로드 알림 -->
           <post-insert-dialog ref="InsertDialog" 
-                              v-model:show="dialog" 
+                              v-model="dialog" 
                               :show="hidden" 
                               :uploadPost="uploadPost"
                               @update:uploadPost="uploadOK"
@@ -79,7 +79,7 @@ export default {
       postCount:'',
       isLoading: true, // 목록 받기 전
       uploadPost: false, // 게시물 업로드 감지
-      deleteState: false
+      deleteState: false,
     };
   },
   components: {
@@ -102,7 +102,6 @@ export default {
         this.username=this.$store.state.id;   
         const res=await api.get(`/post/${this.username}`)
         if(res.status === 200){
-          console.log(res.data)
           this.postList=res.data.data // 게시물 담음
           this.postCount = this.postList.length // 게시물 개수
         }
