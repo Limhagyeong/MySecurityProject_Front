@@ -83,7 +83,7 @@
                     console.log(res)
                     if(res.status===200){
                         alert("아이디 정보 메일이 발송되었습니다.");
-                        this.$router.push('/login');
+                        this.$router.push('/');
                     }
 
                 }catch(error){

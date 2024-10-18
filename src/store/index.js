@@ -4,7 +4,7 @@ const store = createStore({
   state: { // 상태 초기화
     id: '',
     role: '',
-    deleteState: false,
+    postChange: false,
   },
   mutations: { // 상태 변경 메서드 정의
     setUser(state, user) { // user 객체를 인자로 받아 state의 값을 업데이트
@@ -15,8 +15,8 @@ const store = createStore({
       state.id = '';
       state.role = '';
     },
-    setDeleteState(state, OK){ // 게시물 삭제 상태 업데이트
-      state.deleteState=OK;
+    setPostChange(state, OK){ // 게시물 변동 상태 업데이트
+      state.postChange=OK;
     },
 
   },
@@ -27,8 +27,8 @@ const store = createStore({
     logout({ commit }) {
       commit('clearUser');
     },
-    deleteOK({ commit }, OK){
-      commit('setDeleteState', OK);
+    postChange({ commit }, OK){
+      commit('setPostChange', OK);
     },
   },
 });

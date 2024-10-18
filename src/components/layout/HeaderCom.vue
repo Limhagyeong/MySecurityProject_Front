@@ -27,7 +27,7 @@
       </v-btn>
 
       
-      <v-btn icon @click="sessionRole==='ROLE_USER' || sessionRole==='ROLE_ADMIN' ? logout() : $router.push('/login')">
+      <v-btn icon @click="sessionRole==='ROLE_USER' || sessionRole==='ROLE_ADMIN' ? logout() : $router.push('/')">
         <v-icon v-if="(sessionRole!=='ROLE_USER') && (sessionRole!=='ROLE_ADMIN')">mdi-login</v-icon>
         <v-icon v-else>mdi-account</v-icon>
       </v-btn>
@@ -48,7 +48,7 @@ export default{
   },
   computed: {
     isLoginPage(){
-      return this.$route.path === '/login';
+      return this.$route.path === '/';
     },
     isSignUpPage(){
       return this.$route.path === '/signup';
@@ -70,9 +70,12 @@ export default{
   methods:{
     async logout(){
       try{
-        await api.post('/logout') // 로그아웃 요청
-        this.$store.dispatch('logout') // sessionID, ROLE 초기화
-        this.$router.push('/login') // 로그인 페이지로 이동
+        const res=await api.post('/logout') // 로그아웃 요청
+        if(res.status===200){
+          this.$store.dispatch('logout') // sessionID, ROLE 초기화
+           this.$router.push('/') // 로그인 페이지로 이동
+        }
+        
       }catch(error){
         console.log("로그아웃 실패"+error.response.data.message)
       }

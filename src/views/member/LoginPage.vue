@@ -57,6 +57,7 @@
     };
   },
   methods: {
+
     // ID 입력 여부 검사
     usernameVal(){
         if(!this.username){
@@ -99,25 +100,12 @@
       formData.append("password", this.password);
 
       try {
-        const res=await api.post("/loginProcess", formData);
+        const res=await api.post("/login", formData);
           if(res.status===200){
-            this.checkSession();
-            this.$router.push("/");
+            this.$router.push("/home");
           }
       } catch (error) {
         alert(error.response.data.error);
-      }
-    },
-    async checkSession() {
-      try {
-        const res = await api.get("/members");
-        this.$store.dispatch('login',
-        {
-          id: res.data.data.id, 
-          role: res.data.data.role
-        })
-      } catch (error) {
-        console.error("세션 확인 실패:", error);
       }
     },
   },

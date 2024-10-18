@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     isLoginPage(){
-      return this.$route.path === '/login';
+      return this.$route.path === '/';
     },
     isSignUpPage(){
       return this.$route.path === '/signup';

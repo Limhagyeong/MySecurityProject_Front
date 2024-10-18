@@ -43,7 +43,7 @@ export default {
       rail: false,
       isActive : false,
       items:[
-        {title:'Home', icon: 'mdi-home-city', to:"/"},
+        {title:'Home', icon: 'mdi-home-city', to:"/home"},
         {title:'Posting', icon: 'mdi-account', to:"/posting"},
       ]
     }

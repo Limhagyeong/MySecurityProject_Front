@@ -79,7 +79,6 @@ export default {
       postCount:'',
       isLoading: true, // 목록 받기 전
       uploadPost: false, // 게시물 업로드 감지
-      deleteState: false,
     };
   },
   components: {
@@ -87,8 +86,8 @@ export default {
     PostImgCard
   },
   computed:{
-    deletePost(){
-      return this.$store.state.deleteState // 스토어에 저장된 게시물 삭제 상태 가져옴
+    postChange(){
+      return this.$store.state.postChange // 스토어에 저장된 게시물 삭제 상태 가져옴
     }
   },
   mounted(){
@@ -107,6 +106,7 @@ export default {
         }
       }catch(error){
         alert(error.response.data.message);
+        this.$router.push('/');
       }finally{
         this.isLoading=false // api 요청 완료 후 로딩 해제
       }
@@ -128,10 +128,10 @@ export default {
         this.uploadPost=false
       }
     },
-    deletePost(OK){
+    postChange(OK){
       if(OK){
         this.selectPost()
-        this.$store.dispatch('deleteOK', false); // 스토어 다시 false로 
+        this.$store.dispatch('postChange', false); // 스토어 다시 false로 
       }
     }
   }

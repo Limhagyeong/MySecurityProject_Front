@@ -162,7 +162,7 @@
           if(res.status === 200){
           alert("게시물이 삭제되었습니다.")
           this.detailDialog=false
-          this.$store.dispatch('deleteOK', true); // 게시물 삭제 상태 true로 변경
+          this.$store.dispatch('postChange', true); // 게시물 변동 상태 true로 변경
           }
         }catch(error){
           alert(error.response.data.message);

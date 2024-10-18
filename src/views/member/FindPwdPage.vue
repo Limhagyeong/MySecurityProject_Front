@@ -91,7 +91,7 @@
                     console.log(res)
                     if(res.status===200){
                         alert("임시 비밀번호가 메일로 발송되었습니다.");
-                        this.$router.push('/login');
+                        this.$router.push('/');
                     }
 
                 }catch(error){

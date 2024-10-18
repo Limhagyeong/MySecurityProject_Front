@@ -8,12 +8,12 @@ import PostingPage from '@/views/post/PostingPage.vue';
 import PostImgCard from '@/views/post/PostImgCard.vue';
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'MainPage',
     component: MainPage
   },
   {
-    path: '/login',
+    path: '/',
     name: 'LoginPage',
     component: LoginPage
   },
