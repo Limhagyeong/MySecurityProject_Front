@@ -55,7 +55,7 @@ export default {
     PostDetailDialog,
   },
   mounted() {
-    console.log();
+    console.log('postList:', this.postList);
   },
   methods: {
     // 게시물 상세 다이얼로그 오픈

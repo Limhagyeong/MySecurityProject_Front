@@ -8,7 +8,7 @@
             <div class="imgBox">
               <v-carousel v-model="carouselIndex">
                 <v-carousel-item
-                  v-for="(img, index) in selectedPost.imgUrl"
+                  v-for="(img, index) in selectedPost.imgUrls"
                   :key="index"
                 >
                   <v-img :src="img" class="selectedImg" />
@@ -160,7 +160,7 @@ export default {
 
       this.detailDialog = false;
       this.content = this.selectedPost.content;
-      this.defaultImg = '';
+      this.defaultImg = ''; // 수정!!!!!
       this.updateDialog = true;
     },
     // 이미지 선택창 오픈
