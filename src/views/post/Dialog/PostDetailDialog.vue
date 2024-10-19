@@ -137,9 +137,7 @@ export default {
       defaultImg: '',
     };
   },
-  mounted() {
-    console.log('se', this.selectedPost);
-  },
+  mounted() {},
   methods: {
     dialogClose() {
       this.detailDialog = false;
@@ -158,6 +156,8 @@ export default {
       }
     },
     openUpdateDialog() {
+      console.log('se', this.selectedPost);
+
       this.detailDialog = false;
       this.content = this.selectedPost.content;
       this.defaultImg = '';

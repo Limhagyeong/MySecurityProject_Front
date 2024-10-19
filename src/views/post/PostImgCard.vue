@@ -2,7 +2,7 @@
   <v-container style="width: 1000px; margin: auto">
     <v-row justify="center" align="center">
       <v-col
-        v-for="(post, index) in groupedPostList"
+        v-for="(post, index) in postList"
         :key="index"
         :post="post"
         cols="4"
@@ -14,7 +14,12 @@
           @click="openDetailDialog(post)"
           style="border-radius: 0"
         >
-          <v-img :src="post[0].imgUrl" height="300px" cover />
+          <v-img
+            v-if="post.imgUrls.length > 0"
+            :src="post.imgUrls[0]"
+            height="300px"
+            cover
+          />
         </v-card>
         <div v-else>Post data</div>
       </v-col>
@@ -49,24 +54,8 @@ export default {
   components: {
     PostDetailDialog,
   },
-  computed: {
-    groupedPostList() {
-      const postgroup = this.postList.reduce((acc, post) => {
-        const pnum = post.pnum;
-        if (!acc[pnum]) {
-          acc[pnum] = [];
-        }
-        acc[pnum].push(post);
-        return acc;
-      }, {});
-
-      // 배열 정렬
-      const sortedGroups = Object.values(postgroup).sort((a, b) => {
-        return b[0].pnum - a[0].pnum; // pnum이 높은 순서로 정렬
-      });
-
-      return sortedGroups;
-    },
+  mounted() {
+    console.log();
   },
   methods: {
     // 게시물 상세 다이얼로그 오픈
