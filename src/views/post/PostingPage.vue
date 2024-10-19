@@ -40,7 +40,8 @@
         </v-col>
       </v-col>
     </v-row>
-
+  </v-container>
+  <v-container>
     <!-- 게시물 목록 출력 -->
     <v-row>
       <v-divider style="margin-top: 20px; width: 1000px"></v-divider>

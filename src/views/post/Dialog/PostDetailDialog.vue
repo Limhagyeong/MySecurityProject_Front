@@ -72,11 +72,14 @@
         <v-card-text style="display: flex; height: 100%" no-gutters>
           <v-col cols="12" md="6" sm="6" style="cursor: pointer">
             <div class="imgBox">
-              <v-img
-                class="selectedImg"
-                :src="defaultImg"
-                @click="selectImage"
-              />
+              <v-carousel v-model="carouselIndex">
+                <v-carousel-item
+                  v-for="(img, index) in defaultImgs"
+                  :key="index"
+                >
+                  <v-img :src="img" class="selectedImg" @click="selectImage" />
+                </v-carousel-item>
+              </v-carousel>
             </div>
           </v-col>
           <v-col cols="12" md="6" sm="6">
@@ -94,6 +97,7 @@
         <!-- 파일 입력 -->
         <v-file-input
           ref="imageFile"
+          multiple
           v-model="imgFile"
           accept=".png, .jpg"
           style="display: none"
@@ -134,14 +138,14 @@ export default {
       content: '',
       imgFile: '',
       carouselIndex: 0,
-      defaultImg: '',
+      defaultImgs: [],
     };
   },
-  mounted() {},
   methods: {
     dialogClose() {
       this.detailDialog = false;
       this.updateDialog = false;
+      this.carouselIndex = 0;
     },
     async deletePost() {
       try {
@@ -156,11 +160,9 @@ export default {
       }
     },
     openUpdateDialog() {
-      console.log('se', this.selectedPost);
-
       this.detailDialog = false;
+      this.defaultImgs = this.selectedPost.imgUrls;
       this.content = this.selectedPost.content;
-      this.defaultImg = ''; // 수정!!!!!
       this.updateDialog = true;
     },
     // 이미지 선택창 오픈
@@ -169,9 +171,11 @@ export default {
     },
     // 선택된 이미지 미리보기
     imgChange(event) {
-      const file = event.target.files[0];
+      const file = Array.from(event.target.files);
+      console.log(file);
       if (file) {
-        this.defaultImg = URL.createObjectURL(file);
+        this.defaultImgs = file.map((file) => URL.createObjectURL(file));
+        console.log(this.defaultImgs);
       }
     },
     // 게시물 업데이트

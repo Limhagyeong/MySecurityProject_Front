@@ -118,6 +118,8 @@ export default {
           this.$emit('update:uploadPost', true); // 부모에게 업로드 알림
           this.dialog = false;
           this.defaultImg = require('@/assets/image.png');
+          console.log('insert selected img:', this.selectedImgs);
+          this.selectedImgs = [];
           this.content = '';
         }
       } catch (error) {
