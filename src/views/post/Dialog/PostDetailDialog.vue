@@ -39,6 +39,7 @@
 
         <v-card-actions>
           <v-btn
+            v-show="selectedPost.username === sessionID"
             color="primary"
             text="update"
             variant="tonal"
@@ -46,18 +47,14 @@
           ></v-btn>
 
           <v-btn
+            v-show="selectedPost.username === sessionID"
             color="primary"
             text="delete"
             variant="tonal"
             @click="deletePost"
           ></v-btn>
 
-          <v-btn
-            v-if="selectedPost.username === sessionID"
-            text="Close"
-            variant="plain"
-            @click="dialogClose"
-          ></v-btn>
+          <v-btn text="Close" variant="plain" @click="dialogClose"></v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -110,6 +107,7 @@
           <v-btn text="Close" variant="plain" @click="dialogClose"></v-btn>
 
           <v-btn
+            v-show="selectedPost.username === sessionID"
             color="primary"
             text="Save"
             variant="tonal"
