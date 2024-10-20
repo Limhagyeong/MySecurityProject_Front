@@ -68,6 +68,9 @@ export default {
           id: res.data.data.id,
           role: res.data.data.role,
         });
+        this.$store.dispatch('sessionChange', true);
+        console.log(this.$store.state.sessionChange);
+        console.log(this.$store.state.sessionId);
       } catch (error) {
         console.error('세션 확인 실패:', error);
       }

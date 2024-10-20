@@ -139,6 +139,7 @@ export default {
       defaultImgs: [], // 선택된 이미지 미리보여주기
       changeImgs: [], // 실제 전송할 이미지
       postImgNum: [],
+      sessionChange: this.$store.state.sessionChange,
     };
   },
   methods: {
