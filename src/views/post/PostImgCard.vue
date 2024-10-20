@@ -15,7 +15,7 @@
           style="border-radius: 0"
         >
           <v-img
-            v-if="post.imgUrls.length > 0"
+            v-if="post.imgUrls && post.imgUrls.length > 0"
             :src="post.imgUrls[0]"
             height="300px"
             cover
@@ -48,6 +48,7 @@ export default {
     return {
       post: '',
       selectedPost: '',
+      imgList: [],
       detailDialog: false,
     };
   },

@@ -136,9 +136,11 @@ export default {
       sessionID: this.$store.state.id,
       updateDialog: false,
       content: '',
-      imgFile: '',
+      imgFile: false,
       carouselIndex: 0,
-      defaultImgs: [],
+      defaultImgs: [], // 선택된 이미지 미리보여주기
+      changeImgs: [], // 실제 전송할 이미지
+      postImgNum: [],
     };
   },
   methods: {
@@ -160,9 +162,12 @@ export default {
       }
     },
     openUpdateDialog() {
+      console.log(this.selectedPost);
       this.detailDialog = false;
       this.defaultImgs = this.selectedPost.imgUrls;
       this.content = this.selectedPost.content;
+      this.postImgNum = this.selectedPost.pimgNumList;
+      console.log(this.postImgNum);
       this.updateDialog = true;
     },
     // 이미지 선택창 오픈
@@ -175,22 +180,26 @@ export default {
       console.log(file);
       if (file) {
         this.defaultImgs = file.map((file) => URL.createObjectURL(file));
-        console.log(this.defaultImgs);
+        this.changeImgs = file;
+        console.log('hangeImgs:', this.changeImgs);
       }
     },
-    // 게시물 업데이트
+    //   게시물 업데이트
     async updatePost() {
       try {
         const formData = new FormData();
 
-        if (!this.imgFile) {
+        if (this.imgFile.length === 0) {
           formData.append('updated', 'N');
         } else {
-          formData.append('img', this.imgFile);
+          this.changeImgs.forEach((file) => {
+            formData.append('img', file);
+          });
           formData.append('updated', 'Y');
         }
         formData.append('pNum', this.selectedPost.pnum);
         formData.append('content', this.content);
+        formData.append('imgNum', this.postImgNum);
         const res = await api.patch(
           `/post/${this.selectedPost.pnum}`,
           formData

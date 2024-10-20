@@ -131,6 +131,7 @@ export default {
       this.dialog = false;
       this.defaultImg = require('@/assets/image.png');
       this.content = '';
+      this.selectedImgs = [];
     },
   },
 };
