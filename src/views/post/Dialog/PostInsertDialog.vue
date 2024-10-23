@@ -107,6 +107,8 @@ export default {
         formData.append('content', this.content);
         formData.append('username', this.$store.state.id);
 
+        console.log(this.$store.state.id);
+
         const res = await api.post('/post', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',

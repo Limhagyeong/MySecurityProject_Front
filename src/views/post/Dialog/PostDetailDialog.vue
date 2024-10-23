@@ -198,7 +198,7 @@ export default {
         }
         formData.append('pNum', this.selectedPost.pnum);
         formData.append('content', this.content);
-        formData.append('imgNum', this.postImgNum);
+        formData.append('pImgNum', this.postImgNum);
         const res = await api.patch(
           `/post/${this.selectedPost.pnum}`,
           formData

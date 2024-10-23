@@ -98,6 +98,7 @@ export default {
   mounted() {
     // 게시물 출력
     this.selectPost();
+    console.log('selec:', this.selectPost);
   },
   methods: {
     // 게시물 가져오기 및 출력
